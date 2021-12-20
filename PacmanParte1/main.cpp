@@ -42,6 +42,7 @@ int main()
 void Setup()
 {
     std::cout.sync_with_stdio(false);
+    srand(time(NULL));
     player_x = pacman_map.spawn_player.X;
     player_y = pacman_map.spawn_player.Y;
 }
@@ -134,6 +135,7 @@ void Logic()
         {
             win = true;
         }
+        enemy01.Update(&pacman_map);
     }
 }
 

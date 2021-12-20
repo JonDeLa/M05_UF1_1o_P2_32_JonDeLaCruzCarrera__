@@ -1,5 +1,9 @@
 #pragma once
 #include "ConsoleUtils.h"
+#include "Map.h"
+
+#include<stdlib.h>
+#include<time.h>
 class  Enemy
 {
 	//<summary>
@@ -16,6 +20,7 @@ class  Enemy
 	//</summary>
 	ConsoleUtils::CONSOLE_COLOR foreground = ConsoleUtils::CONSOLE_COLOR::RED;
 	ConsoleUtils::CONSOLE_COLOR background = ConsoleUtils::CONSOLE_COLOR::BLACK;
+	void RandomDir();
 	//<summary>
 	// Con el Public hacemos que todo lo que esta abajo nos lo ponga en publico
 	//</summary>
@@ -27,6 +32,6 @@ public:
 	Enemy();
 	Enemy(COORD _spawn); 
 	void Draw();
-
+	void Update(Map* _map);
 
 };
