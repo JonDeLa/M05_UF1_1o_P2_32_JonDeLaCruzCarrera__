@@ -1,5 +1,5 @@
 #include "Map.h"
-
+#include "Enemy.h"
 /// <summary>
 /// Sets the needed variables
 /// </summary>
@@ -19,6 +19,7 @@ void Draw();
 
 enum USER_INPUTS { NONE, UP, DOWN, RIGHT, LEFT, QUIT };
 Map pacman_map = Map();
+Enemy enemy01 = Enemy({ 12,9 });
 char player_char = 'O';
 int player_x = 1;
 int player_y = 1;
@@ -143,6 +144,10 @@ void Draw()
     ConsoleUtils::Console_SetPos(player_x, player_y);
     ConsoleUtils::Console_SetColor(ConsoleUtils::CONSOLE_COLOR::DARK_YELLOW);
     std::cout << player_char;
+    //<summary>
+    // Despues de imprimir el player imprimimos el enemy
+    //</summary>
+    enemy01.Draw();
     ConsoleUtils::Console_ClearCharacter({ 0,(short)pacman_map.Height });
     ConsoleUtils::Console_SetColor(ConsoleUtils::CONSOLE_COLOR::CYAN);
     std::cout << "Puntuacion actual: " << player_points << " Puntuacion pendiente: " << pacman_map.points << std::endl;
