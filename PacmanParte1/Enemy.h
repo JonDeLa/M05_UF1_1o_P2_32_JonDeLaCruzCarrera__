@@ -6,10 +6,12 @@
 #include<time.h>
 class  Enemy
 {
+	
 	//<summary>
 	//Posición y dirección COORD es como si fuera un Vector 2
 	//</summary>
 	COORD pos;
+	COORD Respawn;
 	COORD dir;
 	//<summary>
 	//Este sera el como se imprime el enemigo
@@ -31,7 +33,8 @@ public:
 	//</summary>
 	Enemy();
 	Enemy(COORD _spawn); 
+	enum ENEMY_STATE{ENEMY_NONE,ENEMY_KILLED,ENEMY_KILL};
 	void Draw();
-	void Update(Map* _map);
+	ENEMY_STATE Update(Map* _map, COORD _player);
 
 };

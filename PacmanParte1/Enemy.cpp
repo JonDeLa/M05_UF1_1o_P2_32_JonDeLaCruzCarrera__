@@ -18,7 +18,7 @@ void Enemy::RandomDir()
 	case 3:
 		dir.Y = -1;
 		break;
-	
+
 	}
 }
 
@@ -27,14 +27,16 @@ void Enemy::RandomDir()
 //</summary>
 Enemy::Enemy()
 {
-	pos = { 0,0};
+	pos = Respawn;
 	dir = { 0,0 };
+	Respawn = { 0,0 };
 }
 
 Enemy::Enemy(COORD _spawn)
 {
 	pos = _spawn;
 	dir = { 0,0 };
+	Respawn = _spawn;
 }
 
 void Enemy::Draw()
@@ -44,13 +46,13 @@ void Enemy::Draw()
 	std::cout << character;
 }
 
-void Enemy::Update(Map* _map)
+Enemy::ENEMY_STATE Enemy::Update(Map* _map, COORD _player)
 {
 	RandomDir();
 	COORD newPos = pos;
 	newPos.X += dir.X;
 	newPos.Y += dir.Y;
-
+	//Teleport
 	if (newPos.X < 0)
 	{
 		newPos.X = _map->Width - 1;
@@ -61,7 +63,7 @@ void Enemy::Update(Map* _map)
 		newPos.Y = _map->Height - 1;
 	}
 	newPos.Y %= _map->Height;
-
+	//Limites o Muros
 	switch (_map->GetTile(newPos.X, newPos.Y))
 	{
 	case Map::MAP_TILES::MAP_WALL:
@@ -69,4 +71,12 @@ void Enemy::Update(Map* _map)
 		break;
 	}
 	pos = newPos;
+	ENEMY_STATE state = ENEMY_STATE::ENEMY_NONE;
+	//Muerte del Enemigo
+	if (pos.X == _player.X && pos.Y == _player.Y)
+	{
+		pos = Respawn;
+		state = ENEMY_STATE::ENEMY_KILLED;
+	}
+	return state;
 }
