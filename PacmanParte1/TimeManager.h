@@ -12,5 +12,6 @@ class TimeManager
 
 		static TimeManager& getInstance();
 		void NextFrame();
+		
 };
 
