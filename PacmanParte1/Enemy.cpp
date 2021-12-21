@@ -46,8 +46,15 @@ void Enemy::Draw()
 	std::cout << character;
 }
 
+void Enemy::PowerUpActive()
+{
+	//Sumamos +15 porque de esta manera cuando hagamos el if en el update le decimos que si el contador es menor o igual a el tiempo nos haga lo que queramos.
+	pu_countdown = TimeManager::getInstance().time + pu_countdown_Time;
+}
+
 Enemy::ENEMY_STATE Enemy::Update(Map* _map, COORD _player)
 {
+	/*pu_countdown += TimeManager::getInstance().deltaTime;*/
 	RandomDir();
 	COORD newPos = pos;
 	newPos.X += dir.X;
@@ -75,8 +82,27 @@ Enemy::ENEMY_STATE Enemy::Update(Map* _map, COORD _player)
 	//Muerte del Enemigo
 	if (pos.X == _player.X && pos.Y == _player.Y)
 	{
-		pos = Respawn;
-		state = ENEMY_STATE::ENEMY_KILLED;
+		if (pu_countdown <= TimeManager::getInstance().time)
+		{
+			foreground = foreground_attack;
+			state = ENEMY_STATE::ENEMY_KILL;
+		}
+		else
+		{
+			pos = Respawn; 
+			foreground = foreground_powerup;
+			state = ENEMY_STATE::ENEMY_KILLED;
+
+			
+		}
+	}
+	if (pu_countdown <= TimeManager::getInstance().time)
+	{
+		foreground = foreground_attack;
+	}
+	else
+	{
+		foreground = foreground_powerup;
 	}
 	return state;
 }
